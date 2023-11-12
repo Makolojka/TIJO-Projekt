@@ -1,0 +1,63 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0;
+  font-family: Bahnschrift; }
+:root {
+  --main-background: rgb(255, 255, 255);
+  --main-color: #6B3FA0;
+  --main-bg-color: rgba(107, 63, 160, 1);
+  //--main-bg-color: rgba(64, 36, 93, 1);
+  --main-bg-color-op: rgba(107, 63, 160, 0.8);
+  --secondary-color: #FFCE34;
+  --secondary-variant-color: #a18a36;
+  --third-color: #2d1a42;
+  --third-color-op: rgba(45, 26, 66, 0.8);
+  --third-color-hover: #522f79;
+  --fourth-color: #666666;
+  --fifth-color: #e5b8ff;
+  --third-color-greyed: #aa99be;
+  --red-color: #963939;
+  --red-color-hover: #cb5e5e;
+}
+
+.align-center-column{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.align-center-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.align-left-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+.align-right-row{
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  align-items: center;
+}
+.align-left-column{
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+@import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '@fortawesome/fontawesome-free/scss/solid.scss';
+@import '@fortawesome/fontawesome-free/scss/regular.scss';
+@import '@fortawesome/fontawesome-free/scss/brands.scss';
+
+//@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
