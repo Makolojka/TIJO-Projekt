@@ -20,7 +20,7 @@ import { EventCardComponent } from './components/event-card/event-card.component
 import { MainButtonComponent } from './components/main-button/main-button.component';
 import { LikeButtonComponent } from './components/like-button/like-button.component';
 import { EventCategoriesComponent } from './components/event-categories/event-categories.component';
-import { LoginComponent } from './components/login/login.component';
+import { UserAuthComponent } from './components/user-auth/user-auth.component';
 import { EventDetailComponent } from './components/event-detail/event-detail.component';
 import { MultiItemCarouselComponent } from './components/multi-item-carousel/multi-item-carousel.component';
 import { WishListComponent } from './components/wish-list/wish-list.component';
@@ -55,7 +55,7 @@ import { NgxChartsModule }from '@swimlane/ngx-charts';
     MainButtonComponent,
     LikeButtonComponent,
     EventCategoriesComponent,
-    LoginComponent,
+    UserAuthComponent,
     EventDetailComponent,
     MultiItemCarouselComponent,
     WishListComponent,

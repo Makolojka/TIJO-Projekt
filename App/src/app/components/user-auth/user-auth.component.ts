@@ -3,29 +3,26 @@ import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
 
 @Component({
-  selector: 'login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  selector: 'user-auth',
+  templateUrl: './user-auth.component.html',
+  styleUrls: ['./user-auth.component.css']
 })
-export class LoginComponent implements OnInit{
+export class UserAuthComponent implements OnInit{
   isRightPanelActive = false;
   incorrectCredentials = false;
   inSignUpCorrectCredentials = false;
+  isFormSubmitted: boolean = false;
 
-  public signInCredentials = {
+  signInCredentials = {
     login: '',
     password: ''
   };
 
-  public signUpCredentials = {
+  signUpCredentials = {
     name: '',
     email: '',
     password: '',
   };
-
-  public logged?: boolean;
-  public logout?: boolean;
-  public isFormSubmitted: boolean = false;
 
   constructor(
     public authService: AuthService,
@@ -33,8 +30,8 @@ export class LoginComponent implements OnInit{
     private route: ActivatedRoute
   ) {}
 
-  @ViewChild('cpasswordInput') cpasswordInput: any;
-  public cpassword = '';
+  @ViewChild('rePasswordInput') rePasswordInput: any;
+  rePassword = '';
   isSignUpFormSubmitted = false;
 
   ngOnInit(): void {
@@ -60,12 +57,9 @@ export class LoginComponent implements OnInit{
       return this.authService.authenticate(this.signInCredentials).subscribe(
         (result) => {
           if (!result) {
-            this.logged = false;
-            // console.log("Coś poszło nie tak");
+            console.log("Coś poszło nie tak");
             this.incorrectCredentials = true;
-            // this.openSnackBar("Coś poszło nie tak, spróbuj ponownie", "");
           } else {
-            this.logout = false;
             this.signInCredentials = {
               login: '',
               password: ''
@@ -75,7 +69,6 @@ export class LoginComponent implements OnInit{
         },
         (error) => {
           if (error.status === 401 || error.status === 404) {
-            this.logged = false;
             console.log("Coś poszło nie tak");
             this.incorrectCredentials = true;
           } else {
@@ -88,15 +81,15 @@ export class LoginComponent implements OnInit{
   }
 
   // Sign Up
-  submitForm() {
+  signUp() {
     this.isSignUpFormSubmitted = true;
-    const cpassword = this.cpasswordInput.nativeElement.value;
+    const rePassword = this.rePasswordInput.nativeElement.value;
     const password = this.signUpCredentials.password;
 
     if (this.isFormInvalid()) {
       // Empty fields
       return;
-    } else if (this.signUpCredentials.password !== cpassword) {
+    } else if (this.signUpCredentials.password !== rePassword) {
       // Password mismatch
       return;
     } else if (!this.isPasswordStrong(password)) {
@@ -115,8 +108,7 @@ export class LoginComponent implements OnInit{
       },
       (error) => {
         if (error.status === 400) {
-          // this.openSnackBar("Email lub login zajęte.", "");
-          // console.log("Email lub login zajete")
+          console.log("Email lub login zajete")
           this.inSignUpCorrectCredentials = true;
         } else {
           console.error(error);
