@@ -21,7 +21,7 @@
       <input #rePasswordInput type="password" class="fadeIn third" name="rePassword" id="rePassword"
              placeholder="Powtórz hasło" [(ngModel)]="rePassword" required>
       <div *ngIf="isSignUpFormSubmitted && signUpCredentials.password !== rePassword" class="error">Hasła się nie zgadzają.</div>
-      <div *ngIf="inSignUpCorrectCredentials" class="error">Email lub login zajęte.</div>
+      <div *ngIf="inSignUpCorrectCredentials" class="error">Podany email lub login został już zajęty.</div>
       <button (click)="signUp()" style="margin-top: 25px">Zarejestruj się</button>
     </form>
   </div>
@@ -53,6 +53,9 @@
       </div>
     </div>
   </div>
+
+
+
 </div>
 
 <!--LAYOUT CREDITS: https://codepen.io/FlorinPop17/pen/vPKWjd-->

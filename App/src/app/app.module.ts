@@ -43,6 +43,9 @@ import {AuthInterceptor} from "./services/auth.interceptor";
 import {CategoryFilterService} from "./services/category-filter.service";
 import {EventManagerComponent} from "./components/event-manager/event-manager.component";
 import { NgxChartsModule }from '@swimlane/ngx-charts';
+import { SnackbarComponent } from './components/snackbars/snackbar-error/snackbar.component';
+import {ServerErrorInterceptor} from "./interceptors/server-error.interceptor";
+import { SnackbarSuccessComponent } from './components/snackbars/snackbar-success/snackbar-success.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -66,6 +69,8 @@ import { NgxChartsModule }from '@swimlane/ngx-charts';
     EventCardWideComponent,
     TextRestrainPipe,
     EventManagerComponent,
+    SnackbarComponent,
+    SnackbarSuccessComponent,
   ],
   imports: [
     BrowserModule,
@@ -96,8 +101,14 @@ import { NgxChartsModule }from '@swimlane/ngx-charts';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ServerErrorInterceptor,
+      multi: true
     }
   ],
+
   bootstrap: [AppComponent]
 })
 export class AppModule { }

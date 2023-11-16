@@ -1,6 +1,9 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {AuthService} from "../../services/auth.service";
+import {MatSnackBar} from "@angular/material/snack-bar";
+import {SnackbarComponent} from "../snackbars/snackbar-error/snackbar.component";
+import {SnackbarSuccessComponent} from "../snackbars/snackbar-success/snackbar-success.component";
 
 @Component({
   selector: 'user-auth',
@@ -24,15 +27,16 @@ export class UserAuthComponent implements OnInit{
     password: '',
   };
 
-  constructor(
-    public authService: AuthService,
-    private router: Router,
-    private route: ActivatedRoute
-  ) {}
-
   @ViewChild('rePasswordInput') rePasswordInput: any;
   rePassword = '';
   isSignUpFormSubmitted = false;
+
+  constructor(
+    public authService: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private _snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe(params => {
@@ -57,7 +61,7 @@ export class UserAuthComponent implements OnInit{
       return this.authService.authenticate(this.signInCredentials).subscribe(
         (result) => {
           if (!result) {
-            console.log("Coś poszło nie tak");
+            this.openSnackBarError("Coś poszło nie tak");
             this.incorrectCredentials = true;
           } else {
             this.signInCredentials = {
@@ -65,14 +69,15 @@ export class UserAuthComponent implements OnInit{
               password: ''
             };
             this.router.navigate(['/']);
+            this.openSnackBarSuccess("Pomyślnie zalogowano na konto.");
           }
         },
         (error) => {
           if (error.status === 401 || error.status === 404) {
-            console.log("Coś poszło nie tak");
+            this.openSnackBarError("Podano błędny login lub hasło.");
             this.incorrectCredentials = true;
           } else {
-            console.error(error);
+            this.openSnackBarError("Wystapił nieznany błąd, spróbuj ponownie");
           }
         }
       );
@@ -104,11 +109,12 @@ export class UserAuthComponent implements OnInit{
   create() {
     this.authService.createOrUpdate(this.signUpCredentials).subscribe((result) => {
         this.router.navigate(['/']);
+        this.openSnackBarSuccess("Pomyślnie utworzono konto.");
         return result;
       },
       (error) => {
         if (error.status === 400) {
-          console.log("Email lub login zajete")
+          this.openSnackBarError("Podany email lub login został już zajęty");
           this.inSignUpCorrectCredentials = true;
         } else {
           console.error(error);
@@ -132,5 +138,21 @@ export class UserAuthComponent implements OnInit{
   // Toggle Panel
   toggleRightPanel() {
     this.isRightPanelActive = !this.isRightPanelActive;
+  }
+
+  // Snackbar messages
+  openSnackBarError(errorMsg: string) {
+    this._snackBar.openFromComponent(SnackbarComponent, {
+      duration: 5000,
+      data: { errorMsg: errorMsg },
+      panelClass: ['snackbar-error-style']
+    });
+  }
+  openSnackBarSuccess(msg: string) {
+    this._snackBar.openFromComponent(SnackbarSuccessComponent, {
+      duration: 5000,
+      data: { msg: msg },
+      panelClass: ['snackbar-success-style']
+    });
   }
 }
