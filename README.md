@@ -14,8 +14,9 @@ Projekt skupia się na przeprowadzeniu i implementacji testów logowania użytko
 Aby, uruchomić projekt należy znajdować się w terminalu w odpowiednim folderze(ścieżce) i wywołać komendę '_npm start_' zarówno dla części serwerowej(backend) jak 
 i klienckiej(frontend).
 
-- Ścieżka części serwerowej: <..\TIJO-Projekt\Server>
-- Ścieżka części frontendowej: <..\TIJO-Projekt\App>
+Ścieżka części serwerowej: <..\TIJO-Projekt\Server>
+Ścieżka części frontendowej: <..\TIJO-Projekt\App>
+
 
 # Uruchomienie testów jednostkowych
 Ta sekcja zostanie zaktualizowana w późniejszym terminie.
