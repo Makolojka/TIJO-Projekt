@@ -36,3 +36,6 @@ Ta sekcja zostanie zaktualizowana w późniejszym terminie.
 - swagger.io
 - angular 16
 - mongo.db
+
+# Prezentacja aplikacji
+https://youtu.be/TaqddrTQ0sc
