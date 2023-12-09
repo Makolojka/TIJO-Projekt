@@ -55,6 +55,6 @@ app.listen(config.port, function () {
     console.info(`Server is running at ${config.port}`)
 });
 
-
+export default app;
 
 
