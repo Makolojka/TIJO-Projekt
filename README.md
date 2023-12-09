@@ -86,7 +86,9 @@ Spis testów integracyjnych:
 | 10  | Sprawdzenie reakcji formularza na puste pole          | Formularz logowania lub rejestracji posiada puste pola     | 1. Pozostaw jedno z pól formularza pustym, np. pole loginu lub hasła. <br> 2. Kliknij przycisk "Zaloguj się". | Formularz informuje użytkownika o konieczności wypełnienia wszystkich pól lub blokuje wysłanie danych.  |
 
 # Dokumentacja API
-### Dokumentacja swagger'a w .yaml
+Szczegółowa dokumentacja API dostępna jest z poziomu interfejsu swagger.io. Po włączeniu serwera (<..\TIJO-Projekt\Server>npm start) dokumentację można znaleźć pod adresem: http://localhost:3001/api-docs/#/.
+
+### Alternatywnie. Dokumentacja swagger'a w .yaml
 [Link to Swagger YAML File](./Sources/swagger.yaml)
 
 # Technologie użyte w projekcie
