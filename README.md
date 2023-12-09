@@ -52,7 +52,8 @@ Spis testów jednostkowych:
 | 3   | should handle authentication failure with invalid credentials | Obsługa błędu uwierzytelniania z nieprawidłowymi danymi.                                     |
 | 4   | should create user if the form is valid         | Utworzenie użytkownika przy prawidłowo wypełnionym formularzu.                                       |
 | 5   | should not create user if the form is invalid   | Brak utworzenia użytkownika przy nieprawidłowo wypełnionym formularzu.                                |
-
+### Screen z przebiegu testów
+![Reference Image](./Sources/unit.png)
 
 # Uruchomienie testów integracyjnych
 Aby, uruchomić testy integracyjne należy z poziomu ścieżki <..\TIJO-Projekt\Server> uruchomić komendę: npm test
@@ -67,6 +68,8 @@ Spis testów integracyjnych:
 | 2   | should not create user if it already exists           | Użytkownik nie zostaje utworzony, jeśli już istnieje.       |
 | 3   | should not create user and respond with 400 status code.  | Użytkownik nie zostaje utworzony i serwer odpowiada z kodem stanu 400.              |
 
+### Screen z przebiegu testów
+![Reference Image](./Sources/integrity.png)
 
 # Scenariusze testowe dla testera manualnego
 | Lp. | Nazwa                                                 | Warunki wstępne                                            | Kroki wykonania                                                                      | Oczekiwany rezultat                                                                                      |
@@ -83,7 +86,8 @@ Spis testów integracyjnych:
 | 10  | Sprawdzenie reakcji formularza na puste pole          | Formularz logowania lub rejestracji posiada puste pola     | 1. Pozostaw jedno z pól formularza pustym, np. pole loginu lub hasła. <br> 2. Kliknij przycisk "Zaloguj się". | Formularz informuje użytkownika o konieczności wypełnienia wszystkich pól lub blokuje wysłanie danych.  |
 
 # Dokumentacja API
-Ta sekcja zostanie zaktualizowana w późniejszym terminie.
+### Dokumentacja swagger'a w .yaml
+[Link to Swagger YAML File](./Sources/swagger.yaml)
 
 # Technologie użyte w projekcie
 - node.js
