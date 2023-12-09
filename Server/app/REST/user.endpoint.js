@@ -69,7 +69,6 @@ const userEndpoint = (router) => {
      *           example:
      *             email: user@example.com
      *             password: pass@123
-     *             // Add more fields with descriptions or examples
      *     responses:
      *       '200':
      *         description: The created user
@@ -80,7 +79,6 @@ const userEndpoint = (router) => {
      *             example:
      *               id: 12345
      *               email: user@example.com
-     *               // Other user fields
      *       '400':
      *         description: Bad Request
      *         content:
