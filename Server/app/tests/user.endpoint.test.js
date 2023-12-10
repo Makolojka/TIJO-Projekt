@@ -4,8 +4,8 @@ import app from '../app';
 import User  from '../DAO/userDAO';
 import Password from '../DAO/passwordDAO';
 beforeEach(async () => {
-    await User.model.deleteMany({});
-    await Password.model.deleteMany({});
+    // await User.model.deleteMany({});
+    // await Password.model.deleteMany({});
 });
 describe('Create user endpoint', () => {
     it('should create user and respond with 200 status code', async () => {

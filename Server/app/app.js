@@ -22,27 +22,57 @@ app.use(cors());
 
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
-mongoose.connect(config.databaseUrl, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
-    useFindAndModify: false,
-    useUnifiedTopology: true
-}, (error) => {
-    if (error) {
-        console.error(error);
-    }
-    else {
-        console.info('Connect with database established');
-    }
-});
+if (process.env.NODE_ENV === 'test') {
+    const { MongoMemoryServer } = require('mongodb-memory-server');
 
-process.on('SIGINT', () => {
-    mongoose.connection.close(function () {
-        console.error('Mongoose default connection disconnected through app termination');
-        process.exit(0);
+    async function connectWithInMemoryDB() {
+        const mongod = await MongoMemoryServer.create();
+        const uri = mongod.getUri();
+
+        mongoose.connect(uri, {
+            useNewUrlParser: true,
+            useCreateIndex: true,
+            useFindAndModify: false,
+            useUnifiedTopology: true
+        }, (error) => {
+            if (error) {
+                console.error(error);
+            } else {
+                console.info('Connected to in-memory database');
+            }
+        });
+
+        process.on('SIGINT', () => {
+            mongoose.connection.close(() => {
+                mongod.stop();
+                console.error('Mongoose default connection disconnected through app termination');
+                process.exit(0);
+            });
+        });
+    }
+
+    connectWithInMemoryDB();
+} else {
+    mongoose.connect(config.databaseUrl, {
+        useNewUrlParser: true,
+        useCreateIndex: true,
+        useFindAndModify: false,
+        useUnifiedTopology: true
+    }, (error) => {
+        if (error) {
+            console.error(error);
+        } else {
+            console.info('Connect with database established');
+        }
     });
-});
 
+    process.on('SIGINT', () => {
+        mongoose.connection.close(() => {
+            console.error('Mongoose default connection disconnected through app termination');
+            process.exit(0);
+        });
+    });
+}
 
 routes(app);
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
