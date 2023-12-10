@@ -542,8 +542,6 @@ const userEndpoint = (router) => {
      *             schema:
      *               type: object
      *               properties:
-     *                 // Define the properties of the user object here
-     *                 // Example:
      *                 id:
      *                   type: string
      *                   description: Unique identifier of the user
@@ -553,7 +551,6 @@ const userEndpoint = (router) => {
      *                 email:
      *                   type: string
      *                   description: Email of the user
-     *                 // Add other properties as needed
      *       '404':
      *         description: User not found
      *       '500':
