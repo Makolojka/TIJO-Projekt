@@ -1,5 +1,3 @@
-import TokenDAO from "../DAO/tokenDAO";
-
 const request = require('supertest');
 const express = require("express");
 import app from '../app';
@@ -8,6 +6,7 @@ import Password from '../DAO/passwordDAO';
 import Ticket from '../DAO/ticketDAO';
 import Artist from '../DAO/artistDAO';
 import Event from '../DAO/eventDAO';
+
 beforeEach(async () => {
     await User.model.deleteMany({});
     await Password.model.deleteMany({});
@@ -16,6 +15,7 @@ beforeEach(async () => {
     await Artist.model.deleteMany({});
     await Event.model.deleteMany({});
 });
+
 describe('Create user endpoint', () => {
     it('should create user and respond with 200 status code', async () => {
         // Arrange
@@ -164,6 +164,63 @@ describe('Logout user', () => {
     });
 });
 
+describe('Get tickets by ID', () => {
+    it('should get tickets by ID and respond with 200 status code', async () => {
+        // Create ticket
+        const ticketDetails = {
+            type: 'Auto Moto Fiesta',
+            price: 129,
+            dayOfWeek: 'sobota-niedziela',
+            date: '12-13.08.2023',
+        };
+        const createdTicket = await request(app)
+            .post(`/api/events/ticket`)
+            .send(ticketDetails);
+        const { id: ticketId } = createdTicket.body;
+
+        // Act
+        return request(app)
+            .get(`/api/events/tickets/${ticketId}`)
+            .then(response => {
+                expect(response.status).toBe(200);
+                expect(response.body).toHaveProperty('price');
+                expect(response.body.price).toBe(129);
+            });
+    });
+});
+
+// Cart tests
+describe('Users cart - Get users cart', ()  => {
+    it('should get users cart and respond with 200 status code', async () => {
+        // Arrange
+        const userData = {
+            name: 'TEST',
+            email: 'email@gmail.com',
+            password: 'zaq123!@K'
+        };
+        const loginCredentials = {
+            login: 'TEST',
+            password: 'zaq123!@K'
+        };
+
+        // Act
+        const createdUserResponse = await request(app)
+            .post('/api/user/create')
+            .send(userData);
+        const { userId: userId } = createdUserResponse.body;
+
+        const loginResponse = await request(app)
+            .post('/api/user/auth')
+            .send(loginCredentials);
+        const token = loginResponse.body.token;
+
+        const getCartResponse = await request(app).get(`/api/user/${userId}/cart`).set('Authorization', "Bearer "+token)
+
+        // Assert
+        expect(getCartResponse.status).toBe(200);
+    });
+});
+
 describe('Users cart - Add ticket(s) to cart', () => {
     it('should add ticket to user cart and respond with 200 status code', async () => {
         // Arrange
@@ -198,7 +255,6 @@ describe('Users cart - Add ticket(s) to cart', () => {
             .send(eventDetails);
         const { id: eventId } = createdEvent.body;
 
-
         const userData = {
             name: 'TEST',
             email: 'email@gmail.com',
@@ -207,7 +263,7 @@ describe('Users cart - Add ticket(s) to cart', () => {
         const createdUser = await request(app)
             .post('/api/user/create')
             .send(userData);
-        const { id: userId } = createdUser.body;
+        const { userId: userId } = createdUser.body;
 
         // Authenticate the user
         const loginCredentials = {
@@ -221,18 +277,105 @@ describe('Users cart - Add ticket(s) to cart', () => {
 
 
         // Act
-        const response = await request(app)
+        const addToCartResponse = await request(app)
             .post(`/api/user/${userId}/cart/add-ticket/${eventId}/${ticketId}`)
             .set('Authorization', "Bearer "+token)
             .send({ quantity: 2 });
 
         // Assert
+        expect(loginResponse.status).toBe(200);
+        expect(createdUser.status).toBe(200);
         expect(createdTicket.status).toBe(200);
         expect(createdEvent.status).toBe(200);
-        expect(response.status).toBe(200);
-        // expect(response.body.user).toHaveProperty('cart');
-        // expect(response.body).toHaveProperty('success', true);
-        // expect(response.body).toHaveProperty('user');
+        expect(addToCartResponse.status).toBe(200);
+        expect(addToCartResponse.body.user).toHaveProperty('cart');
+        expect(addToCartResponse.body).toHaveProperty('success', true);
+        expect(addToCartResponse.body).toHaveProperty('user');
+    });
+});
+
+describe('Users cart - Remove ticket(s) from cart', () => {
+    it('should remove ticket from users cart and respond with 200 status code', async () => {
+        // Arrange
+        // Create ticket
+        const ticketDetails = {
+            type: 'Auto Moto Fiesta',
+            price: 129,
+            dayOfWeek: 'sobota-niedziela',
+            date: '12-13.08.2023',
+        };
+        const createdTicket = await request(app)
+            .post(`/api/events/ticket`)
+            .send(ticketDetails);
+        const { id: ticketId } = createdTicket.body;
+
+        // Create event
+        const eventDetails = {
+            title: 'Auto Moto Fiesta',
+            image: 'https://www.ebilet.pl/media/cms/media/d0lkjovd/amf_poster_going_552x736-b45e835c-cbc7-00fe-b9cc-d46a8c80f7e8.webp',
+            text: 'Pierwszy Festiwal Muzyczno – Motoryzacyjny...',
+            additionalText: 'Festiwal łączy...',
+            organiser: 'Good Show',
+            tickets: [ticketId],
+            date: '12-13.08.2023',
+            location: 'Kielce',
+            category: ['Muzyka', 'Inne'],
+            subCategory: ['Rock', 'Metal'],
+            views: 0
+        };
+        const createdEvent = await request(app)
+            .post('/api/event')
+            .send(eventDetails);
+        const { id: eventId } = createdEvent.body;
+
+        const userData = {
+            name: 'TEST',
+            email: 'email@gmail.com',
+            password: 'zaq123!@K'
+        };
+        const createdUser = await request(app)
+            .post('/api/user/create')
+            .send(userData);
+        const { userId: userId } = createdUser.body;
+
+        // Authenticate the user
+        const loginCredentials = {
+            login: 'TEST',
+            password: 'zaq123!@K',
+        };
+        const loginResponse = await request(app)
+            .post('/api/user/auth')
+            .send(loginCredentials);
+        const token = loginResponse.body.token;
+
+        const addToCartResponse = await request(app)
+            .post(`/api/user/${userId}/cart/add-ticket/${eventId}/${ticketId}`)
+            .set('Authorization', "Bearer "+token)
+            .send({ quantity: 2 });
+
+        // Act
+        const removeFromCartResponse = await request(app)
+            .post(`/api/user/${userId}/cart/remove-ticket/${eventId}/${ticketId}`)
+            .set('Authorization', "Bearer "+token)
+            .send({ quantity: 2 });
+
+        // Assert
+        expect(loginResponse.status).toBe(200);
+        expect(createdUser.status).toBe(200);
+        expect(createdTicket.status).toBe(200);
+        expect(createdEvent.status).toBe(200);
+
+        // First add ticket to the cart
+        expect(addToCartResponse.status).toBe(200);
+        expect(addToCartResponse.body.user).toHaveProperty('cart');
+        expect(addToCartResponse.body).toHaveProperty('success', true);
+        expect(addToCartResponse.body).toHaveProperty('user');
+
+        // Remove the ticket from the cart
+        expect(removeFromCartResponse.status).toBe(200);
+        expect(removeFromCartResponse.body.user).toHaveProperty('cart');
+        expect(removeFromCartResponse.body).toHaveProperty('success', true);
+        expect(removeFromCartResponse.body).toHaveProperty('user');
 
     });
 });

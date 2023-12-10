@@ -51,7 +51,6 @@ if (process.env.NODE_ENV === 'test') {
             });
         });
     }
-
     connectWithInMemoryDB();
 } else {
     // Regular database for production

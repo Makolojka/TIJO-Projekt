@@ -88,7 +88,7 @@ const ticketEndpoint = (router) => {
     router.post('/api/events/ticket', async (request, response, next) => {
         try {
             let result = await business.getTicketManager().createNewOrUpdate(request.body);
-            response.status(200).send(result);
+            response.status(200).json(result);
         } catch (error) {
             console.log(error);
         }

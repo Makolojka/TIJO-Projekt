@@ -34,8 +34,8 @@ async function createNewOrUpdate(data) {
     return Promise.resolve().then(() => {
         if (!data.id) {
             return new TicketModel(data).save().then(result => {
-                if (result[0]) {
-                    return mongoConverter(result[0]);
+                if (result) {
+                    return mongoConverter(result);
                 }
             });
         } else {
