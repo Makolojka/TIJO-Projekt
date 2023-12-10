@@ -23,6 +23,7 @@ app.use(cors());
 // app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 if (process.env.NODE_ENV === 'test') {
+    // In memory database for testing environment
     const { MongoMemoryServer } = require('mongodb-memory-server');
 
     async function connectWithInMemoryDB() {
@@ -53,6 +54,7 @@ if (process.env.NODE_ENV === 'test') {
 
     connectWithInMemoryDB();
 } else {
+    // Regular database for production
     mongoose.connect(config.databaseUrl, {
         useNewUrlParser: true,
         useCreateIndex: true,

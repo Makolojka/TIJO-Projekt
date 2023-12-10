@@ -198,7 +198,10 @@ const userEndpoint = (router) => {
     router.post('/api/user/:userId/cart/add-ticket/:eventId/:ticketId', auth, async (req, res) => {
         const { userId, eventId, ticketId } = req.params;
         let { quantity } = req.body;
-
+        console.log("userId: ",userId)
+        console.log("eventId: ",eventId)
+        console.log("ticketId: ",ticketId)
+        console.log("quantity: ",quantity)
         // If quantity is not provided or is not a valid number, set it to 1
         if (!quantity || isNaN(quantity)) {
             quantity = 1;
@@ -211,6 +214,7 @@ const userEndpoint = (router) => {
             const user = await userDAO.addToCart(userId, eventId, ticketId, quantity);
             res.status(200).json({ success: true, user });
         } catch (error) {
+            console.log("error msg: ",error)
             res.status(500).json({ error: error.message });
         }
     });
