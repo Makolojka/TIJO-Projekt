@@ -1,8 +1,6 @@
 import mongoose from 'mongoose';
-import uniqueValidator from 'mongoose-unique-validator';
 import mongoConverter from '../service/mongoConverter';
 import * as _ from "lodash";
-import {ObjectId} from "mongodb";
 
 //TODO: Dodać liczbę dostepnych biletów
 const ticketSchema = new mongoose.Schema({

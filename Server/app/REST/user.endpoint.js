@@ -1,9 +1,7 @@
 import business from '../business/business.container';
 import applicationException from '../service/applicationException';
-import admin from '../middleware/admin';
 import auth from '../middleware/auth';
 import userDAO from "../DAO/userDAO";
-import eventDAO from "../DAO/eventDAO";
 import UserDAO from "../DAO/userDAO";
 const userEndpoint = (router) => {
     /**
@@ -366,9 +364,8 @@ const userEndpoint = (router) => {
      *                 message:
      *                   type: string
      */
-    // TODO: dodać auth
     //Likes and follows
-    router.post('/api/profile/like-follow/:userId/:eventId/:actionType', async (request, response, next) => {
+    router.post('/api/profile/like-follow/:userId/:eventId/:actionType', auth, async (request, response, next) => {
         try {
             const userId = request.params.userId;
             const eventId = request.params.eventId;

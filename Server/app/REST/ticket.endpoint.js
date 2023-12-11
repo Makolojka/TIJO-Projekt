@@ -1,6 +1,5 @@
 import business from '../business/business.container';
 import eventDAO from "../DAO/eventDAO";
-import artistDAO from "../DAO/artistDAO";
 import ticketDAO from "../DAO/ticketDAO";
 
 const ticketEndpoint = (router) => {

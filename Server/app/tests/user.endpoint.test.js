@@ -1,5 +1,4 @@
 const request = require('supertest');
-const express = require("express");
 import app from '../app';
 import User  from '../DAO/userDAO';
 import Password from '../DAO/passwordDAO';
@@ -328,6 +327,7 @@ describe('Users cart - Remove ticket(s) from cart', () => {
             .send(eventDetails);
         const { id: eventId } = createdEvent.body;
 
+        // Create user
         const userData = {
             name: 'TEST',
             email: 'email@gmail.com',
@@ -338,7 +338,7 @@ describe('Users cart - Remove ticket(s) from cart', () => {
             .send(userData);
         const { userId: userId } = createdUser.body;
 
-        // Authenticate the user
+        // Authenticate/Log in the user
         const loginCredentials = {
             login: 'TEST',
             password: 'zaq123!@K',
@@ -377,5 +377,86 @@ describe('Users cart - Remove ticket(s) from cart', () => {
         expect(removeFromCartResponse.body).toHaveProperty('success', true);
         expect(removeFromCartResponse.body).toHaveProperty('user');
 
+    });
+});
+
+
+describe('Like or Follow Event', () => {
+    it('should like or follow an event and respond with 200 status code', async () => {
+        // Arrange
+        // Create ticket
+        const ticketDetails = {
+            type: 'Auto Moto Fiesta',
+            price: 129,
+            dayOfWeek: 'sobota-niedziela',
+            date: '12-13.08.2023',
+        };
+        const createdTicketResponse = await request(app)
+            .post(`/api/events/ticket`)
+            .send(ticketDetails);
+        const { id: ticketId } = createdTicketResponse.body;
+
+        // Create event
+        const eventDetails = {
+            title: 'Auto Moto Fiesta',
+            image: 'https://www.ebilet.pl/media/cms/media/d0lkjovd/amf_poster_going_552x736-b45e835c-cbc7-00fe-b9cc-d46a8c80f7e8.webp',
+            text: 'Pierwszy Festiwal Muzyczno – Motoryzacyjny...',
+            additionalText: 'Festiwal łączy...',
+            organiser: 'Good Show',
+            tickets: [ticketId],
+            date: '12-13.08.2023',
+            location: 'Kielce',
+            category: ['Muzyka', 'Inne'],
+            subCategory: ['Rock', 'Metal'],
+            views: 0
+        };
+        const createdEventResponse = await request(app)
+            .post('/api/event')
+            .send(eventDetails);
+        const { id: eventId } = createdEventResponse.body;
+
+        // Create user
+        const userData = {
+            name: 'TEST',
+            email: 'email@gmail.com',
+            password: 'zaq123!@K'
+        };
+        const createdUserResponse = await request(app)
+            .post('/api/user/create')
+            .send(userData);
+        const { userId: userId } = createdUserResponse.body;
+
+        // Authenticate/Log in the user
+        const loginCredentials = {
+            login: 'TEST',
+            password: 'zaq123!@K',
+        };
+        const loginResponse = await request(app)
+            .post('/api/user/auth')
+            .send(loginCredentials);
+        const token = loginResponse.body.token;
+
+        // Action type like or follow
+        const actionTypeLike = 'like';
+        const actionTypeFollow = 'follow';
+
+        // Act
+        const likeResponse = await request(app)
+            .post(`/api/profile/like-follow/${userId}/${eventId}/${actionTypeLike}`).set('Authorization', "Bearer "+token);
+
+        const followResponse = await request(app)
+            .post(`/api/profile/like-follow/${userId}/${eventId}/${actionTypeFollow}`).set('Authorization', "Bearer "+token);
+
+        // Assert
+        expect(loginResponse.status).toBe(200);
+        expect(createdUserResponse.status).toBe(200);
+        expect(createdTicketResponse.status).toBe(200);
+        expect(createdEventResponse.status).toBe(200);
+
+        // Like assert
+        expect(likeResponse.status).toBe(200);
+
+        // Follow assert
+        expect(followResponse.status).toBe(200);
     });
 });
