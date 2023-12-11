@@ -1,6 +1,5 @@
 import business from '../business/business.container';
 import eventDAO from "../DAO/eventDAO";
-import artistDAO from "../DAO/artistDAO";
 import ticketDAO from "../DAO/ticketDAO";
 
 const ticketEndpoint = (router) => {
@@ -88,7 +87,7 @@ const ticketEndpoint = (router) => {
     router.post('/api/events/ticket', async (request, response, next) => {
         try {
             let result = await business.getTicketManager().createNewOrUpdate(request.body);
-            response.status(200).send(result);
+            response.status(200).json(result);
         } catch (error) {
             console.log(error);
         }

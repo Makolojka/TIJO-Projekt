@@ -88,7 +88,7 @@ const eventEndpoint = (router) => {
     router.post('/api/event', async (request, response, next) => {
         try {
             let result = await business.getEventManager().createNewOrUpdate(request.body);
-            response.status(200).send(result);
+            response.status(200).json(result);
         } catch (error) {
             console.log(error);
         }
