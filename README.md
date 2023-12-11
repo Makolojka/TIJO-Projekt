@@ -20,8 +20,9 @@ i klienckiej(frontend).
 ```<..\TIJO-Projekt\App>npm start```
 
 Część kliencka dostępna jest pod adresem: 
-> http://localhost:4200/ <br><br>
-<br>Część kliencka dostępna jest pod adresem: 
+> http://localhost:4200/
+
+<br><br>Część kliencka dostępna jest pod adresem: 
 > http://localhost:3001/
 
 ***
