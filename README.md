@@ -14,17 +14,22 @@ Projekt skupia się na przeprowadzeniu i implementacji testów logowania użytko
 Aby, uruchomić projekt należy znajdować się w terminalu w odpowiednim folderze(ścieżce) i wywołać komendę '_npm start_' zarówno dla części serwerowej(backend) jak 
 i klienckiej(frontend).
 
-Ścieżka części serwerowej: <..\TIJO-Projekt\Server>
-Ścieżka części frontendowej: <..\TIJO-Projekt\App>
+Ścieżka części serwerowej: <br>
+```<..\TIJO-Projekt\Server>npm start```
+Ścieżka części frontendowej: <br>
+```<..\TIJO-Projekt\App>npm start```
 
+Część kliencka dostępna jest pod adresem: > http://localhost:4200/ <br>
+Część kliencka dostępna jest pod adresem: > http://localhost:3001/
+
+***
 
 # Uruchomienie testów jednostkowych
 Aby, uruchomić testy jednostkowe należy z poziomu ścieżki <..\TIJO-Projekt\App> uruchomić komendę: ng test --include='**/user-auth.component.spec.ts'.
 
 Testy jednostkowe skupiają się na kwestii poprawności działania części frontendowej. W szczególności metod związanych z poprawną weryfikacją pól formularza oraz wywoływaniem metod odpowiedzialnych za tworzenie nowych kont oraz logowanie. Testy jednostkowe zostały podzielone na 3. grupy.
 
-Spis testów jednostkowych:
-## Spis testów
+## Spis testów jednostkowych (16):
 ### UserAuthComponent Validation Methods
 | Lp. | Test                                             | Oczekiwany rezultat                                                                                   |
 |-----|--------------------------------------------------|--------------------------------------------------------------------------------------------------------|
@@ -52,15 +57,14 @@ Spis testów jednostkowych:
 | 3   | should handle authentication failure with invalid credentials | Obsługa błędu uwierzytelniania z nieprawidłowymi danymi.                                     |
 | 4   | should create user if the form is valid         | Utworzenie użytkownika przy prawidłowo wypełnionym formularzu.                                       |
 | 5   | should not create user if the form is invalid   | Brak utworzenia użytkownika przy nieprawidłowo wypełnionym formularzu.                                |
-### Screen z przebiegu testów
-![Reference Image](./Sources/unit.png)
 
 # Uruchomienie testów integracyjnych
-Aby, uruchomić testy integracyjne należy z poziomu ścieżki <..\TIJO-Projekt\Server> uruchomić komendę: npm test
+Aby, uruchomić testy integracyjne należy z poziomu ścieżki <..\TIJO-Projekt\Server> uruchomić komendę: <br>
+```npm test```
 
 Testy integracyjne skupiają się na kwestii poprawności działania części backendowej, a dokładniej poprawności działania modułów między sobą.
 
-Spis testów integracyjnych:
+## Spis testów integracyjnych (11):
 ### Create user endpoint
 | Lp. | Test                                                              | Oczekiwany rezultat                                                              |
 |-----|-------------------------------------------------------------------|-----------------------------------------------------------------------------------|
@@ -99,36 +103,56 @@ Spis testów integracyjnych:
 |-----|-------------------------------------------------------------------|-----------------------------------------------------------------------------------|
 | 1   | should remove ticket from users cart and respond with 200 status code  | Usunięcie biletu z koszyka użytkownika i odpowiedź serwera z kodem stanu 200.         |
 
+### Like or Follow Event
+| Lp. | Test                                                              | Oczekiwany rezultat                                                              |
+|-----|-------------------------------------------------------------------|-----------------------------------------------------------------------------------|
+| 1   | should like or follow an event and respond with 200 status code  | Polubienie lub obserwowanie wydarzenia i odpowiedź serwera z kodem stanu 200.         |
 
-### Screen z przebiegu testów
-![Reference Image](./Sources/integrity.png)
-
-# Scenariusze testowe dla testera manualnego
-| Lp. | Nazwa/Przypadek                                        | Warunki wstępne                                            | Kroki wykonania                                                                      | Oczekiwany rezultat                                                                                      |
+# Scenariusze testowe dla testera manualnego (19):
+| Test Case ID | Opis                                        | Warunki wstępne                                            | Kroki testowe                                                                      | Oczekiwany wynik                                                                                      |
 |-----|--------------------------------------------------------|-------------------------------------------------------------|--------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------|
-| 1   | Otwarcie strony logowania                              | Dostęp do strony logowania.                                  | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Zaloguj"                                            | Strona logowania poprawnie się otwiera.                                                                  |
-| 2   | Otwarcie strony rejestracji                            | Dostęp do strony rejestracji.                                | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Zarejestruj się"                                                      | Strona rejestracji poprawnie się otwiera.                                                                |
-| 3   | Przejście między formularzami logowania i rejestracji  | Strona logowania lub rejestracji jest już otwarta.           | 1. Kliknij przycisk "Zarejestruj się" mając otwarty panel logowania lub przycisk "Zaloguj się" mając otwarty panel rejestracji          | Animacja przenoszenia panelu działa, formularze logowania i rejestracji są widoczne po zmianie.          |
-| 4   | Logowanie poprzez wprowadzenie poprawnych danych       | Strona logowania jest już otwarta.                           | 1. Wypełnij prawdiłowo wszystkie pola formularza. <br> 2. Kliknij przycisk "Zaloguj się".              | Użytkownik zostaje poprawnie zalogowany.                                                                 |
-| 5   | Zabezpieczenie przed nieprawidłowymi danymi logowania | Strona logowania jest już otwarta.                           | 1. Wprowadź niepoprawne dane logowania. <br> 2. Kliknij przycisk "Zaloguj się".                        | Formularz nie pozwala na zalogowanie z nieprawidłowymi danymi.                                             |
-| 6   | Rejestracja użytkownika z poprawnymi danymi           | Strona rejestracji jest już otwarta.                         | 1. Wypełnij formularz rejestracyjny poprawnymi danymi. <br> 2. Kliknij przycisk "Zarejestruj się".     | Użytkownik zostaje pomyślnie zarejestrowany. System tworzy nowe konto w bazie danych. System wyświetla monit o utworzeniu konta.                                                             |
-| 7   | Zabezpieczenie przed nieprawidłowymi danymi rejestracyjnymi | Strona rejestracji jest już otwarta.                   | 1. Wypełnij formularz rejestracyjny nieprawidłowymi danymi. <br> 2. Kliknij przycisk "Zarejestruj się". | Formularz nie pozwala na rejestrację z nieprawidłowymi danymi.                                             |
-| 8   | Sprawdzenie unikalności nazwy użytkownika              | Formularz rejestracji.          | 1. Próba utworzenia konta z istniejącą już nazwą użytkownika.                        | System wyświetla odpowiednie ostrzeżenie o niedostępności nazwy użytkownika.                               |
-| 9   | Wylogowanie użytkownika                                | Użytkownik jest zalogowany.                                 | 1. Zaloguj się na konto użytkownika. <br> 2. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 3. Kliknij w rozsuwanym menu przycisk wylogowania.                      | Użytkownik jest poprawnie wylogowany i panel logowania jest ponownie dostępny.                            |
-| 10  | Sprawdzenie reakcji formularza na puste pole          | Formularz logowania lub rejestracji posiada puste pola.     | 1. Pozostaw jedno z pól formularza pustym, np. pole loginu lub hasła. <br> 2. Kliknij przycisk "Zaloguj się". | Formularz informuje użytkownika o konieczności wypełnienia wszystkich pól lub blokuje wysłanie danych.  |
-| 11  | Dodawanie biletu do koszyka                           | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij przycisk "Dodaj do koszyka".                       | Bilet zostaje dodany do koszyka oraz widoczna jest odpowiednia informacja.                                  |
-| 12  | Usunięcie biletu z koszyka                            | Użytkownik jest zalogowany oraz koszyk zawiera przynajmniej jeden bilet.                      | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Koszyk" <br> 3. Kliknij ikonę symbolizującą kosz, aby usunąć bilet.                 | Bilet zostaje usunięty z koszyka. |
-| 13  | Przeglądanie koszyka                                  | Użytkownik jest zalogowany.                     | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Koszyk"                                                                                   | Użytkownik może zobaczyć zawartość koszyka z wybranymi biletami lub informację o braku jakichkolwiek biletów.                                         |
-| 14  | Dodanie wydarzenia do ulubionych                       | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij ikonę symbolizującą serce.                  | Wydarzenie zostaje dodane do listy ulubionych, a licznik polubionych zwiększa się o 1.                   |
-| 15  | Usunięcie wydarzenia z ulubionych                      | Użytkownik jest zalogowany.                 | 1. Przejdź do listy ulubionych wydarzeń. <br> 2. Znajdź dane wydarzenie. <br> 3. Kliknij ikonę symbolizującą serce. | Wydarzenie zostaje usunięte z listy ulubionych.                                     |
-| 16  | Dodanie wydarzenia do obserwowanych                    | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij ikonę symbolizującą dzwonek.                             | Wydarzenie zostaje dodane do listy obserwowanych.                |
-| 17  | Usunięcie wydarzenia z obserwowanych                   | Użytkownik jest zalogowany.             | 1. Przejdź do listy obserwowanych wydarzeń. <br> 2. Znajdź dane wydarzenie. <br> 3. Kliknij ikonę symbolizującą kosz. | Wydarzenie zostaje usunięte z listy obserwowanych.                                 |
-| 18  | Przeglądanie ulubionych wydarzeń                       | Użytkownik jest zalogowany. <br>Użytkownik posiada min. 1 ulubione wydarzenie                           | 1. Przejdź do listy ulubionych wydarzeń.                                                      | Użytkownik może zobaczyć zawartość listy ulubionych wydarzeń.                                             |
-| 19  | Przeglądanie obserwowanych wydarzeń                    | Użytkownik jest zalogowany. <br>Użytkownik posiada min. 1 obserwowane wydarzenie                       | 1. Przejdź do listy obserwowanych wydarzeń.                                                   | Użytkownik może zobaczyć zawartość listy obserwowanych wydarzeń.                                          |
-# Dokumentacja API
-Szczegółowa dokumentacja API dostępna jest z poziomu interfejsu swagger.io. Po włączeniu serwera (<..\TIJO-Projekt\Server>npm start) dokumentację można znaleźć pod adresem: http://localhost:3001/api-docs/#/.
+| TC_01   | Otwarcie strony logowania                              | Dostęp do strony logowania.                                  | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Zaloguj"                                            | Strona logowania poprawnie się otwiera.                                                                  |
+| TC_02   | Otwarcie strony rejestracji                            | Dostęp do strony rejestracji.                                | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Zarejestruj się"                                                      | Strona rejestracji poprawnie się otwiera.                                                                |
+| TC_03   | Przejście między formularzami logowania i rejestracji  | Strona logowania lub rejestracji jest już otwarta.           | 1. Kliknij przycisk "Zarejestruj się" mając otwarty panel logowania lub przycisk "Zaloguj się" mając otwarty panel rejestracji          | Animacja przenoszenia panelu działa, formularze logowania i rejestracji są widoczne po zmianie.          |
+| TC_04   | Logowanie poprzez wprowadzenie poprawnych danych       | Strona logowania jest już otwarta.                           | 1. Wypełnij prawdiłowo wszystkie pola formularza. <br> 2. Kliknij przycisk "Zaloguj się".              | Użytkownik zostaje poprawnie zalogowany.                                                                 |
+| TC_05   | Zabezpieczenie przed nieprawidłowymi danymi logowania | Strona logowania jest już otwarta.                           | 1. Wprowadź niepoprawne dane logowania. <br> 2. Kliknij przycisk "Zaloguj się".                        | Formularz nie pozwala na zalogowanie z nieprawidłowymi danymi.                                             |
+| TC_06   | Rejestracja użytkownika z poprawnymi danymi           | Strona rejestracji jest już otwarta.                         | 1. Wypełnij formularz rejestracyjny poprawnymi danymi. <br> 2. Kliknij przycisk "Zarejestruj się".     | Użytkownik zostaje pomyślnie zarejestrowany. System tworzy nowe konto w bazie danych. System wyświetla monit o utworzeniu konta.                                                             |
+| TC_07   | Zabezpieczenie przed nieprawidłowymi danymi rejestracyjnymi | Strona rejestracji jest już otwarta.                   | 1. Wypełnij formularz rejestracyjny nieprawidłowymi danymi. <br> 2. Kliknij przycisk "Zarejestruj się". | Formularz nie pozwala na rejestrację z nieprawidłowymi danymi.                                             |
+| TC_08   | Sprawdzenie unikalności nazwy użytkownika              | Formularz rejestracji.          | 1. Próba utworzenia konta z istniejącą już nazwą użytkownika.                        | System wyświetla odpowiednie ostrzeżenie o niedostępności nazwy użytkownika.                               |
+| TC_09   | Wylogowanie użytkownika                                | Użytkownik jest zalogowany.                                 | 1. Zaloguj się na konto użytkownika. <br> 2. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 3. Kliknij w rozsuwanym menu przycisk wylogowania.                      | Użytkownik jest poprawnie wylogowany i panel logowania jest ponownie dostępny.                            |
+| TC_10  | Sprawdzenie reakcji formularza na puste pole          | Formularz logowania lub rejestracji posiada puste pola.     | 1. Pozostaw jedno z pól formularza pustym, np. pole loginu lub hasła. <br> 2. Kliknij przycisk "Zaloguj się". | Formularz informuje użytkownika o konieczności wypełnienia wszystkich pól lub blokuje wysłanie danych.  |
+| TC_11  | Dodawanie biletu do koszyka                           | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij przycisk "Dodaj do koszyka".                       | Bilet zostaje dodany do koszyka oraz widoczna jest odpowiednia informacja.                                  |
+| TC_12  | Usunięcie biletu z koszyka                            | Użytkownik jest zalogowany oraz koszyk zawiera przynajmniej jeden bilet.                      | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Koszyk" <br> 3. Kliknij ikonę symbolizującą kosz, aby usunąć bilet.                 | Bilet zostaje usunięty z koszyka. |
+| TC_13  | Przeglądanie koszyka                                  | Użytkownik jest zalogowany.                     | 1. Kliknij w ikonę awatara w menu nawigacyjnym. <br> 2. Kliknij w rozsuwanym menu przycisk "Koszyk"                                                                                   | Użytkownik może zobaczyć zawartość koszyka z wybranymi biletami lub informację o braku jakichkolwiek biletów.                                         |
+| TC_14  | Dodanie wydarzenia do ulubionych                       | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij ikonę symbolizującą serce.                  | Wydarzenie zostaje dodane do listy ulubionych, a licznik polubionych zwiększa się o 1.                   |
+| TC_15  | Usunięcie wydarzenia z ulubionych                      | Użytkownik jest zalogowany.                 | 1. Przejdź do listy ulubionych wydarzeń. <br> 2. Znajdź dane wydarzenie. <br> 3. Kliknij ikonę symbolizującą serce. | Wydarzenie zostaje usunięte z listy ulubionych.                                     |
+| TC_16  | Dodanie wydarzenia do obserwowanych                    | Użytkownik jest zalogowany.                                 | 1. Przejdź do strony wydarzenia. <br> 2. Kliknij ikonę symbolizującą dzwonek.                             | Wydarzenie zostaje dodane do listy obserwowanych.                |
+| TC_17  | Usunięcie wydarzenia z obserwowanych                   | Użytkownik jest zalogowany.             | 1. Przejdź do listy obserwowanych wydarzeń. <br> 2. Znajdź dane wydarzenie. <br> 3. Kliknij ikonę symbolizującą kosz. | Wydarzenie zostaje usunięte z listy obserwowanych.                                 |
+| TC_18  | Przeglądanie ulubionych wydarzeń                       | Użytkownik jest zalogowany. <br>Użytkownik posiada min. 1 ulubione wydarzenie                           | 1. Przejdź do listy ulubionych wydarzeń.                                                      | Użytkownik może zobaczyć zawartość listy ulubionych wydarzeń.                                             |
+| TC_19  | Przeglądanie obserwowanych wydarzeń                    | Użytkownik jest zalogowany. <br>Użytkownik posiada min. 1 obserwowane wydarzenie                       | 1. Przejdź do listy obserwowanych wydarzeń.                                                   | Użytkownik może zobaczyć zawartość listy obserwowanych wydarzeń.                                          |
 
-### Alternatywnie. Dokumentacja swagger'a w .yaml
+***
+
+# Dokumentacja API
+| Adres usługi                           | Typ   | Przyjmuje                               | Zwraca              |
+|----------------------------------------|-------|-----------------------------------------|---------------------|
+| /api/user/auth                         | POST  | {"login": "string", "password": "string"}| true (kod stanu 200)|
+| /api/user/create                       | POST  | {"email": "string", "password": "string"}| true (kod stanu 200)|
+| /api/user/logout/{userId}              | DELETE| -                                       | true (kod stanu 200)|
+| /api/user/:userId/cart/add-ticket/:eventId/:ticketId | POST  | {"quantity": "number"}                   | true (kod stanu 200)|
+| /api/user/:userId/cart/remove-ticket/:eventId/:ticketId | POST | {"quantity": "number"}                  | true (kod stanu 200)|
+| /api/user/:userId/cart                 | GET   | -                                       | true (kod stanu 200)|
+| /api/profile/like-follow/:userId/:eventId/:actionType | POST | -                                       | true (kod stanu 200)|
+| /api/profile/likes-follows/:userId/:actionType | GET | -                                       | [array of events]   |
+| /api/profile/likes-follows/:userId     | GET   | -                                       | {"followedEventsCount": "integer", "likedEventsCount": "integer"} |
+| /api/profile/check-if-event-liked/:userId/:eventId/:actionType | POST | -                              | {"isLiked": "boolean"}|
+| /api/user/:userId                     | GET   | -                                       | {"id": "string", "name": "string", "email": "string"} |
+
+
+## Alternatywnie. Dokumentacja swagger'a w .yaml
+Szczegółowa dokumentacja API dostępna jest również z poziomu interfejsu swagger.io. 
+<br>Po włączeniu serwera dokumentację można znaleźć pod adresem: > http://localhost:3001/api-docs/#/.<br><br>
+
 [Link to Swagger YAML File](./Sources/swagger.yaml)
 
 # Technologie użyte w projekcie
@@ -137,6 +161,9 @@ Szczegółowa dokumentacja API dostępna jest z poziomu interfejsu swagger.io. P
 - swagger.io
 - angular 16
 - mongo.db
+- jasmine
+- supertest
+- jest
 
 # Prezentacja aplikacji
 https://youtu.be/TaqddrTQ0sc
