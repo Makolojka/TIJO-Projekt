@@ -1,0 +1,816 @@
+openapi: 3.0.0
+info:
+  title: SSB API DOCUMENTATION
+  version: 1.0.0
+  description: API Documentation for SSB system.
+servers:
+  - url: http://localhost:3001
+paths:
+  /api/artists:
+    get:
+      summary: Get all artists
+      tags:
+        - Artists
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artist'
+        '500':
+          description: Internal server error
+  /api/artists/{id}:
+    get:
+      summary: Get a single artist by ID
+      tags:
+        - Artists
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the artist
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+        '404':
+          description: Artist not found
+  /api/artist:
+    post:
+      summary: Create a single artist
+      tags:
+        - Artists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Artist'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Artist'
+  /api/events/{id}/artists:
+    get:
+      summary: Returns artists objects that participate in given event
+      tags:
+        - Artists
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: The ID of the event
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Artist'
+        '404':
+          description: Event not found
+        '500':
+          description: Internal server error
+  /api/events:
+    get:
+      summary: Get all events
+      tags:
+        - Events
+      responses:
+        '200':
+          description: A list of events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+  /api/events/{id}:
+    get:
+      summary: Get a single event by ID
+      tags:
+        - Events
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the event to get
+      responses:
+        '200':
+          description: The event details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /api/event:
+    post:
+      summary: Create a new event
+      tags:
+        - Events
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Event'
+      responses:
+        '200':
+          description: The created event
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Event'
+  /api/event/likes-follows/{eventId}/{userId}/{actionType}:
+    post:
+      summary: Add like or follower to an event
+      tags:
+        - Events
+      parameters:
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: actionType
+          schema:
+            type: string
+          required: true
+          description: Type of action (like/follow)
+      responses:
+        '200':
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/event/likes-follows/{eventId}/{actionType}:
+    get:
+      summary: Get likes or followers count for an event
+      tags:
+        - Events
+      parameters:
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: actionType
+          schema:
+            type: string
+          required: true
+          description: Type of action (like/follow)
+      responses:
+        '200':
+          description: Likes or followers count
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  count:
+                    type: integer
+  /api/event/views/{eventId}:
+    post:
+      summary: Increment views for an event
+      tags:
+        - Events
+      parameters:
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+      responses:
+        '200':
+          description: Success message
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '404':
+          description: Event not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+  /api/tickets:
+    get:
+      summary: Get all tickets
+      tags:
+        - Tickets
+      responses:
+        '200':
+          description: A list of tickets
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+  /api/events/tickets/{id}:
+    get:
+      summary: Get a single ticket by ID
+      tags:
+        - Tickets
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the ticket to get
+      responses:
+        '200':
+          description: The ticket details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+  /api/events/ticket:
+    post:
+      summary: Create a new ticket
+      tags:
+        - Tickets
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '200':
+          description: The created ticket
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ticket'
+  /api/events/{id}/tickets:
+    get:
+      summary: Get tickets for a specific event
+      tags:
+        - Tickets
+      parameters:
+        - in: path
+          name: id
+          schema:
+            type: string
+          required: true
+          description: ID of the event to get tickets for
+      responses:
+        '200':
+          description: A list of tickets for the event
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Ticket'
+  /api/user/auth:
+    post:
+      summary: Authenticate a user
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                login:
+                  type: string
+                password:
+                  type: string
+              required:
+                - login
+                - password
+      responses:
+        '200':
+          description: Authentication successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token:
+                    type: string
+  /api/user/create:
+    post:
+      summary: Create a new user
+      description: Endpoint to register a new user in the system.
+      tags:
+        - Users
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+            example:
+              email: user@example.com
+              password: pass@123
+      responses:
+        '200':
+          description: The created user
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+              example:
+                id: 12345
+                email: user@example.com
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                    description: Reason for the bad request
+              example:
+                error: Password does not meet the strength criteria.
+  /api/user/logout/{userId}:
+    delete:
+      summary: Logout a user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user to logout
+      responses:
+        '200':
+          description: Logout successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+  /api/user/{userId}/cart/add-ticket/{eventId}/{ticketId}:
+    post:
+      summary: Add ticket(s) to user's cart
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: ticketId
+          schema:
+            type: string
+          required: true
+          description: ID of the ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+              required:
+                - quantity
+      responses:
+        '200':
+          description: Ticket(s) added to cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '#/components/schemas/User'
+  /api/user/{userId}/cart/remove-ticket/{eventId}/{ticketId}:
+    post:
+      summary: Remove ticket(s) from user's cart
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: ticketId
+          schema:
+            type: string
+          required: true
+          description: ID of the ticket
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                quantity:
+                  type: number
+              required:
+                - quantity
+      responses:
+        '200':
+          description: Ticket(s) removed from cart successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  user:
+                    $ref: '#/components/schemas/User'
+  /api/user/{userId}/cart:
+    get:
+      summary: Get user's cart
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+      responses:
+        '200':
+          description: User's cart retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  cart:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+  /api/profile/like-follow/{userId}/{eventId}/{actionType}:
+    post:
+      summary: Like or follow an event
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: actionType
+          schema:
+            type: string
+          required: true
+          description: Type of action (like/follow)
+      responses:
+        '200':
+          description: Like or follow action successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                  message:
+                    type: string
+  /api/profile/likes-follows/{userId}/{actionType}:
+    get:
+      summary: Get liked or followed events by user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: actionType
+          schema:
+            type: string
+          required: true
+          description: Type of action (like/follow)
+      responses:
+        '200':
+          description: List of liked or followed events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Event'
+  /api/profile/likes-follows/{userId}:
+    get:
+      summary: Get counts of liked and followed events by user
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+      responses:
+        '200':
+          description: Counts of liked and followed events
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  followedEventsCount:
+                    type: integer
+                  likedEventsCount:
+                    type: integer
+  /api/profile/check-if-event-liked/{userId}/{eventId}/{actionType}:
+    post:
+      summary: Check if user liked or followed an event
+      tags:
+        - Users
+      parameters:
+        - in: path
+          name: userId
+          schema:
+            type: string
+          required: true
+          description: ID of the user
+        - in: path
+          name: eventId
+          schema:
+            type: string
+          required: true
+          description: ID of the event
+        - in: path
+          name: actionType
+          schema:
+            type: string
+          required: true
+          description: Type of action (like/follow)
+      responses:
+        '200':
+          description: Information if user liked or followed the event
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  isLiked:
+                    type: boolean
+components:
+  schemas:
+    Artist:
+      type: object
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        shortDescription:
+          type: string
+        career:
+          type: string
+    Event:
+      type: object
+      properties:
+        title:
+          type: string
+          description: The title of the event.
+        image:
+          type: string
+          description: The URL of the event's image.
+        text:
+          type: string
+          description: The main text content of the event.
+        additionalText:
+          type: string
+          description: Additional text content for the event.
+        organiser:
+          type: string
+          description: The name of the event organiser.
+        date:
+          type: string
+          description: The date of the event.
+        location:
+          type: string
+          description: The location of the event.
+        category:
+          type: array
+          items:
+            type: string
+          description: Array of event categories.
+        subCategory:
+          type: array
+          items:
+            type: string
+          description: Array of event subcategories.
+        createdAt:
+          type: string
+          description: The timestamp when the event was created.
+        tickets:
+          type: array
+          items:
+            $ref: '#/components/schemas/Ticket'
+          description: Array of ticket objects associated with the event.
+        artists:
+          type: array
+          items:
+            $ref: '#/components/schemas/Artist'
+          description: Array of artist objects associated with the event.
+        likes:
+          type: array
+          items:
+            type: string
+          description: Array of user IDs who have liked the event.
+        followers:
+          type: array
+          items:
+            type: string
+          description: Array of user IDs who are following the event.
+        views:
+          type: integer
+          description: Number of views for the event.
+    Ticket:
+      type: object
+      properties:
+        type:
+          type: string
+          description: The type of the ticket.
+        price:
+          type: number
+          description: The price of the ticket.
+        dayOfWeek:
+          type: string
+          description: The day of the week for the ticket.
+        date:
+          type: string
+          description: The date for the ticket.
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+          description: The email address of the user.
+        name:
+          type: string
+          description: The name of the user.
+        role:
+          type: string
+          enum:
+            - admin
+            - user
+          description: The role of the user.
+        active:
+          type: boolean
+          description: Indicates whether the user account is active.
+        isAdmin:
+          type: boolean
+          description: Indicates whether the user has admin privileges.
+        cart:
+          type: array
+          items:
+            type: object
+            properties:
+              event:
+                type: string
+                description: The ID of the event in the user's cart.
+              tickets:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    ticket:
+                      type: string
+                      description: The ID of the ticket in the user's cart.
+                    quantity:
+                      type: number
+                      description: The quantity of the ticket in the user's cart.
+        likedEvents:
+          type: array
+          items:
+            type: string
+            description: Array of event IDs that the user has liked.
+        followedEvents:
+          type: array
+          items:
+            type: string
+            description: Array of event IDs that the user is following.
+    Password:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The ID of the user associated with the password.
+        password:
+          type: string
+          description: The user's password.
+    Token:
+      type: object
+      properties:
+        userId:
+          type: string
+          description: The ID of the user associated with the token.
+        createDate:
+          type: number
+          description: The timestamp when the token was created.
+        type:
+          type: string
+          enum:
+            - tokenType1
+            - tokenType2
+            - tokenType3
+          description: The type of the token.
+        value:
+          type: string
+          description: The value of the token.
+tags:
+  - name: Artists
+    description: API for managing artists.
+  - name: Events
+    description: API for managing events.
+  - name: Tickets
+    description: API for managing tickets.
+  - name: Users
+    description: API for managing users.
