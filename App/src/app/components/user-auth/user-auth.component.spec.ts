@@ -30,7 +30,7 @@ describe('UserAuthTests:', () => {
       expect(component.isFormSubmitted).toBe(true);
     });
 
-    it('should return false when sign-in form is invalid', () => {
+    it('should return true when sign-in form is valid', () => {
       component.signInCredentials.login = 'Test account';
       component.signInCredentials.password = 'test@gmail.com';
 
@@ -40,7 +40,7 @@ describe('UserAuthTests:', () => {
       expect(component.isFormSubmitted).toBe(false);
     });
 
-    it('should return false when sign-in form is invalid', () => {
+    it('should return false when sign-in form is partially invalid', () => {
       component.signInCredentials.login = 'Test account';
       component.signInCredentials.password = '';
 
@@ -50,7 +50,7 @@ describe('UserAuthTests:', () => {
       expect(component.isFormSubmitted).toBe(true);
     });
 
-    it('should return true when sign-up form is valid', () => {
+    it('should return true when sign-up form is invalid', () => {
       component.signUpCredentials.name = '';
       component.signUpCredentials.email = '';
       component.signUpCredentials.password = '';
@@ -60,7 +60,7 @@ describe('UserAuthTests:', () => {
       expect(isInvalidValid).toBe(true);
     });
 
-    it('should return true when sign-up form is valid', () => {
+    it('should return true when sign-up form is partially invalid', () => {
       component.signUpCredentials.name = '';
       component.signUpCredentials.email = 'john@example.com';
       component.signUpCredentials.password = 'StrongPassword123';
@@ -70,7 +70,7 @@ describe('UserAuthTests:', () => {
       expect(isInvalidValid).toBe(true);
     });
 
-    it('should return true when sign-up form is valid', () => {
+    it('should return false when sign-up form is valid', () => {
       component.signUpCredentials.name = 'John Doe';
       component.signUpCredentials.email = 'john@example.com';
       component.signUpCredentials.password = 'StrongPassword123';

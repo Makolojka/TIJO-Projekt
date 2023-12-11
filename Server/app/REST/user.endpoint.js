@@ -1,9 +1,8 @@
 import business from '../business/business.container';
 import applicationException from '../service/applicationException';
-import admin from '../middleware/admin';
 import auth from '../middleware/auth';
 import userDAO from "../DAO/userDAO";
-import eventDAO from "../DAO/eventDAO";
+import UserDAO from "../DAO/userDAO";
 const userEndpoint = (router) => {
     /**
      * @swagger
@@ -69,7 +68,6 @@ const userEndpoint = (router) => {
      *           example:
      *             email: user@example.com
      *             password: pass@123
-     *             // Add more fields with descriptions or examples
      *     responses:
      *       '200':
      *         description: The created user
@@ -80,7 +78,6 @@ const userEndpoint = (router) => {
      *             example:
      *               id: 12345
      *               email: user@example.com
-     *               // Other user fields
      *       '400':
      *         description: Bad Request
      *         content:
@@ -213,6 +210,7 @@ const userEndpoint = (router) => {
             const user = await userDAO.addToCart(userId, eventId, ticketId, quantity);
             res.status(200).json({ success: true, user });
         } catch (error) {
+            console.log("error msg: ",error)
             res.status(500).json({ error: error.message });
         }
     });
@@ -323,6 +321,7 @@ const userEndpoint = (router) => {
             const cart = await userDAO.getCart(userId);
             res.status(200).json({ success: true, cart });
         } catch (error) {
+            console.log("error: ",error)
             res.status(500).json({ error: error.message });
         }
     });
@@ -365,9 +364,8 @@ const userEndpoint = (router) => {
      *                 message:
      *                   type: string
      */
-    // TODO: dodać auth
     //Likes and follows
-    router.post('/api/profile/like-follow/:userId/:eventId/:actionType', async (request, response, next) => {
+    router.post('/api/profile/like-follow/:userId/:eventId/:actionType', auth, async (request, response, next) => {
         try {
             const userId = request.params.userId;
             const eventId = request.params.eventId;
@@ -520,5 +518,53 @@ const userEndpoint = (router) => {
         }
     });
 
+    /**
+     * @swagger
+     * /api/user/{userId}:
+     *   get:
+     *     summary: Get user by ID
+     *     tags: [Users]
+     *     parameters:
+     *       - in: path
+     *         name: userId
+     *         schema:
+     *           type: string
+     *         required: true
+     *         description: ID of the user
+     *     responses:
+     *       '200':
+     *         description: User information retrieved successfully
+     *         content:
+     *           application/json:
+     *             schema:
+     *               type: object
+     *               properties:
+     *                 id:
+     *                   type: string
+     *                   description: Unique identifier of the user
+     *                 name:
+     *                   type: string
+     *                   description: Name of the user
+     *                 email:
+     *                   type: string
+     *                   description: Email of the user
+     *       '404':
+     *         description: User not found
+     *       '500':
+     *         description: Internal server error
+     */
+    // Get user by userId
+    router.get('/api/user/:userId', async (request, response, next) => {
+        try{
+            const userId = request.params.userId;
+
+            console.log("userId get: ",userId);
+
+            let result = await UserDAO.get(userId);
+            response.status(200).json(result);
+        } catch (error) {
+            applicationException.errorHandler(error, response);
+        }
+    });
 };
 export default userEndpoint;

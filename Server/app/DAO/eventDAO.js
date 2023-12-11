@@ -2,7 +2,6 @@ import mongoose from 'mongoose';
 import uniqueValidator from 'mongoose-unique-validator';
 import mongoConverter from '../service/mongoConverter';
 import * as _ from "lodash";
-import {ObjectId} from "mongodb";
 import applicationException from "../service/applicationException";
 
 const eventSchema = new mongoose.Schema({
@@ -64,8 +63,8 @@ async function createNewOrUpdate(data) {
     return Promise.resolve().then(() => {
         if (!data.id) {
             return new EventModel(data).save().then(result => {
-                if (result[0]) {
-                    return mongoConverter(result[0]);
+                if (result) {
+                    return mongoConverter(result);
                 }
             });
         } else {
