@@ -16,21 +16,22 @@ i klienckiej(frontend).
 
 Ścieżka części serwerowej: <br>
 ```<..\TIJO-Projekt\Server>npm start```
-<br>Ścieżka części frontendowej: <br>
+
+Ścieżka części frontendowej: <br>
 ```<..\TIJO-Projekt\App>npm start```
 
+Część serwerowa dostępna jest pod adresem: 
+> http://localhost:3001/
+> 
 Część kliencka dostępna jest pod adresem: 
 > http://localhost:4200/
-
-<br><br>Część kliencka dostępna jest pod adresem: 
-> http://localhost:3001/
-
 ***
 
 # Uruchomienie testów jednostkowych
-Aby, uruchomić testy jednostkowe należy z poziomu ścieżki <..\TIJO-Projekt\App> uruchomić komendę: ng test --include='**/user-auth.component.spec.ts'.
+Aby, uruchomić testy jednostkowe należy z poziomu ścieżki <..\TIJO-Projekt\App> uruchomić komendę: <br>
+```ng test --include='**/user-auth.component.spec.ts'.```
 
-Testy jednostkowe skupiają się na kwestii poprawności działania części frontendowej. W szczególności metod związanych z poprawną weryfikacją pól formularza oraz wywoływaniem metod odpowiedzialnych za tworzenie nowych kont oraz logowanie. Testy jednostkowe zostały podzielone na 3. grupy.
+> Testy jednostkowe skupiają się na kwestii poprawności działania części frontendowej. W szczególności metod związanych z poprawną weryfikacją pól formularza oraz wywoływaniem metod odpowiedzialnych za tworzenie nowych kont oraz logowanie. Testy jednostkowe zostały podzielone na 3. grupy.
 
 ## Spis testów jednostkowych (16):
 ### UserAuthComponent Validation Methods
@@ -65,7 +66,7 @@ Testy jednostkowe skupiają się na kwestii poprawności działania części fro
 Aby, uruchomić testy integracyjne należy z poziomu ścieżki <..\TIJO-Projekt\Server> uruchomić komendę: <br>
 ```npm test```
 
-Testy integracyjne skupiają się na kwestii poprawności działania części backendowej, a dokładniej poprawności działania modułów między sobą.
+> Testy integracyjne skupiają się na kwestii poprawności działania części backendowej, a dokładniej poprawności działania modułów między sobą.
 
 ## Spis testów integracyjnych (11):
 ### Create user endpoint
@@ -109,7 +110,7 @@ Testy integracyjne skupiają się na kwestii poprawności działania części ba
 ### Like or Follow Event
 | Lp. | Test                                                              | Oczekiwany rezultat                                                              |
 |-----|-------------------------------------------------------------------|-----------------------------------------------------------------------------------|
-| 1   | should like or follow an event and respond with 200 status code  | Polubienie lub obserwowanie wydarzenia i odpowiedź serwera z kodem stanu 200.         |
+| 1   | should like or follow an event and respond with 200 status code  | Polubienie lub zaobserwowanie wydarzenia i odpowiedź serwera z kodem stanu 200.         |
 
 # Scenariusze testowe dla testera manualnego (19):
 | Test Case ID | Opis                                        | Warunki wstępne                                            | Kroki testowe                                                                      | Oczekiwany wynik                                                                                      |
@@ -139,24 +140,32 @@ Testy integracyjne skupiają się na kwestii poprawności działania części ba
 # Dokumentacja API
 | Adres usługi                           | Typ   | Przyjmuje                               | Zwraca              |
 |----------------------------------------|-------|-----------------------------------------|---------------------|
-| /api/user/auth                         | POST  | {"login": "string", "password": "string"}| true (kod stanu 200)|
-| /api/user/create                       | POST  | {"email": "string", "password": "string"}| true (kod stanu 200)|
-| /api/user/logout/{userId}              | DELETE| -                                       | true (kod stanu 200)|
-| /api/user/:userId/cart/add-ticket/:eventId/:ticketId | POST  | {"quantity": "number"}                   | true (kod stanu 200)|
-| /api/user/:userId/cart/remove-ticket/:eventId/:ticketId | POST | {"quantity": "number"}                  | true (kod stanu 200)|
-| /api/user/:userId/cart                 | GET   | -                                       | true (kod stanu 200)|
-| /api/profile/like-follow/:userId/:eventId/:actionType | POST | -                                       | true (kod stanu 200)|
-| /api/profile/likes-follows/:userId/:actionType | GET | -                                       | [array of events]   |
-| /api/profile/likes-follows/:userId     | GET   | -                                       | {"followedEventsCount": "integer", "likedEventsCount": "integer"} |
-| /api/profile/check-if-event-liked/:userId/:eventId/:actionType | POST | -                              | {"isLiked": "boolean"}|
-| /api/user/:userId                     | GET   | -                                       | {"id": "string", "name": "string", "email": "string"} |
+| /api/user/auth                         | POST  | {"login": "string", "password": "string"}| kod stanu 200, {"token": "string"} |
+| /api/user/create                       | POST  | {"email": "string", "password": "string"}| kod stanu 200 - {"id": 12345, "email": "user@example.com"}, kod stanu 400 - { "error": "Password does not meet the strength criteria."} |
+| /api/user/logout/{userId}              | DELETE| -                                       | kod stanu 200 - {"message": "string"} |
+| /api/user/:userId/cart/add-ticket/:eventId/:ticketId | POST  | {"quantity": "number"}                   | kod stanu 200 - {ticket body} |
+| /api/user/:userId/cart/remove-ticket/:eventId/:ticketId | POST | {"quantity": "number"}                  | kod stanu 200 |
+| /api/user/:userId/cart                 | GET   | -                                       |  kod stanu 200 - {cart body}|
+| /api/user/:userId                     | GET   | -                                       |  kod stanu 200 - {"id": "string", "name": "string", "email": "string"}, kod stanu 404, kod stanu 500 |
+| /api/profile/like-follow/:userId/:eventId/:actionType | POST | -                                       | kod stanu 200 |
+| /api/profile/likes-follows/:userId/:actionType | GET | -                                       | kod stanu 200, [array of events]   |
+| /api/profile/likes-follows/:userId     | GET   | -                                       | kod stanu 200, {"followedEventsCount": "integer", "likedEventsCount": "integer"} |
+| /api/profile/check-if-event-liked/:userId/:eventId/:actionType | POST | -                              | kod stanu 200, {"isLiked": "boolean"}|
+| /api/events/tickets/:id                        | GET    | -               | {  kod stanu 200, "type": "string",  "price": 0,  "dayOfWeek": "string",  "date": "string"} |
+| /api/events/ticket                             | POST   | {  kod stanu 200, "type": "string",  "price": 0,  "dayOfWeek": "string",  "date": "string"} | {  "type": "string",  "price": 0,  "dayOfWeek": "string",  "date": "string"} |
+| /api/events                                    | GET    | -               | kod stanu 200, [array of events]         |
+| /api/events/:id                                | GET    | -               | kod stanu 200, {event body} |
+| /api/event                                     | POST   | {event body} | kod stanu 200, {created event body} |
+| /api/event/likes-follows/:eventId/:userId/:actionType | POST | -         | kod stanu 200, {"message": "string"}     |
+| /api/event/likes-follows/:eventId/:actionType   | GET    | -     |kod stanu 200, {  "message": "string"}
 
-
-## Alternatywnie. Dokumentacja swagger'a w .yaml
+## Alternatywnie. Dokumentacja swagger'a.
 Szczegółowa dokumentacja API dostępna jest również z poziomu interfejsu swagger.io. 
-<br>Po włączeniu serwera dokumentację można znaleźć pod adresem: > http://localhost:3001/api-docs/#/.<br><br>
+<br>Po włączeniu serwera dokumentację można znaleźć pod adresem: 
+> http://localhost:3001/api-docs/#/.<br><br>
 
-[Link to Swagger YAML File](./Sources/swagger.yaml)
+Lub plik .yaml:
+> [Link to Swagger YAML File](./Sources/swagger.yaml)
 
 # Technologie użyte w projekcie
 - node.js
@@ -167,6 +176,7 @@ Szczegółowa dokumentacja API dostępna jest również z poziomu interfejsu swa
 - jasmine
 - supertest
 - jest
+- javascript/typescript
 
 # Prezentacja aplikacji
 https://youtu.be/TaqddrTQ0sc
