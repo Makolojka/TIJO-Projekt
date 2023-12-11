@@ -10,6 +10,10 @@ Aplikacja do sprzedaży biletów
 # Opis projektu
 Projekt skupia się na przeprowadzeniu i implementacji testów logowania użytkownika do systemu oraz na innych funkcjonalnościach modułu użytkownika.
 
+<kbd> <img src="./Sources/main.png" /> </kbd>
+***
+<kbd> <img src="./Sources/register.png" /> </kbd>
+
 # Uruchomienie projektu
 Aby, uruchomić projekt należy znajdować się w terminalu w odpowiednim folderze(ścieżce) i wywołać komendę '_npm start_' zarówno dla części serwerowej(backend) jak 
 i klienckiej(frontend).
